@@ -23,7 +23,7 @@ services:
     healthcheck:
       test:
         - CMD-SHELL
-        - cockroach sql --insecure --host=localhost:26257 --execute='SELECT 1' >/dev/null 2>&1
+        - cockroach sql --host=127.0.0.1:26257 --certs-dir=/cockroach/certs --user=root --execute='SELECT 1' >/dev/null 2>&1
       interval: 10s
       timeout: 5s
       retries: 12

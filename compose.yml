@@ -1,9 +1,12 @@
+
+
+
 name: ${DOCKER_NAME}
 services:
   nginx:
     image: "nginx:1.21.3"
-    ports:
-      - "${HTTP_BIND}:${HTTP_PORT}:80"
+    expose:
+      - "80"
     volumes:
       - ./.huly.nginx:/etc/nginx/conf.d/default.conf
     restart: unless-stopped
@@ -258,8 +261,8 @@ services:
     depends_on:
       cockroach:
         condition: service_started
-    ports:
-      - 8094:8094
+    expose:
+      - "8094"
     environment:
       - HULY_DB_CONNECTION=${CR_DB_URL}
       - HULY_TOKEN_SECRET=${SECRET}

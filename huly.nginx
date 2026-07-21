@@ -128,7 +128,7 @@ server {
         proxy_set_header Upgrade $http_upgrade;
         proxy_set_header Connection "upgrade";
 
-        rewrite ^/_pulse(/.*)$ $1 break;
+        rewrite ^/_pulse(.*)$ /ws$1 break;
         proxy_pass http://hulypulse:8099/;
     }
 

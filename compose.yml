@@ -7,6 +7,9 @@ services:
     restart: unless-stopped
     networks:
       - huly_net
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=w210j3u2h3cxc7sc5nok11ae"
   cockroach:
     image: cockroachdb/cockroach:latest-v24.2
     command: start-single-node --accept-sql-without-tls

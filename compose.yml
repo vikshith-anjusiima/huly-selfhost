@@ -4,9 +4,7 @@
 name: ${DOCKER_NAME}
 services:
   nginx:
-    build:
-    context: .
-    dockerfile: Dockerfile.nginx
+    build: .
     expose:
       - "80"
     volumes:

@@ -156,6 +156,7 @@ services:
       - LAST_NAME_FIRST=${LAST_NAME_FIRST:-true}
       - QUEUE_CONFIG=redpanda:9092
       - PULSE_URL=http://hulypulse:8099
+      - WEB_PUSH_URL=http://notification:8091
     restart: unless-stopped
     networks:
       - huly_net
@@ -233,6 +234,7 @@ services:
       - DISABLED_FEATURES=auto-translate,mailboxes
       - DISABLE_SIGNUP=${DISABLE_SIGNUP}
       - PULSE_URL=http${SECURE:+s}://${HOST_ADDRESS}/_pulse
+      - PUSH_PUBLIC_KEY=${PUSH_PUBLIC_KEY}
     restart: unless-stopped
     networks:
       - huly_net
@@ -289,6 +291,20 @@ services:
     environment:
       - HULY_DB_CONNECTION=${CR_DB_URL}
       - HULY_TOKEN_SECRET=${SECRET}
+    restart: unless-stopped
+    networks:
+      - huly_net
+
+  notification:
+    image: hardcoreeng/notification:${HULY_VERSION}
+    expose:
+      - "8091"
+    environment:
+      - PORT=8091
+      - SOURCE=notifications@siimatechnologies.com
+      - STATS_URL=http://stats:4900
+      - PUSH_PUBLIC_KEY=${PUSH_PUBLIC_KEY}
+      - PUSH_PRIVATE_KEY=${PUSH_PRIVATE_KEY}
     restart: unless-stopped
     networks:
       - huly_net

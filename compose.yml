@@ -178,6 +178,7 @@ services:
       - ACCOUNTS_URL=http${SECURE:+s}://${HOST_ADDRESS}/_accounts
       - ACCOUNT_PORT=3000
       - QUEUE_CONFIG=redpanda:9092
+      - DISABLE_SIGNUP=${DISABLE_SIGNUP}
     restart: unless-stopped
     networks:
       - huly_net
@@ -221,6 +222,7 @@ services:
       - LAST_NAME_FIRST=${LAST_NAME_FIRST:-true}
       - DESKTOP_UPDATES_CHANNEL=${DESKTOP_CHANNEL}
       - DISABLED_FEATURES=auto-translate,mailboxes
+      - DISABLE_SIGNUP=${DISABLE_SIGNUP}
     restart: unless-stopped
     networks:
       - huly_net

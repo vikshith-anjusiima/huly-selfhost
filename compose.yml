@@ -20,6 +20,14 @@ services:
     volumes:
       - ${VOLUME_CR_DATA_PATH:-cr_data}:/cockroach/cockroach-data
       - ${VOLUME_CR_CERTS_PATH:-cr_certs}:/cockroach/certs
+    healthcheck:
+      test:
+        - CMD-SHELL
+        - cockroach sql --insecure --host=localhost:26257 --execute='SELECT 1' >/dev/null 2>&1
+      interval: 10s
+      timeout: 5s
+      retries: 12
+      start_period: 20s
     restart: unless-stopped
     networks:
       - huly_net
@@ -45,7 +53,7 @@ services:
       - REDPANDA_SUPERUSER_USERNAME=${REDPANDA_ADMIN_USER}
       - REDPANDA_SUPERUSER_PASSWORD=${REDPANDA_ADMIN_PWD}
     healthcheck:
-      test: ['CMD', 'rpk', 'cluster', 'info', '-X', 'user=${REDPANDA_ADMIN_USER}', '-X', 'pass=${REDPANDA_ADMIN_PWD}']
+      test: ['CMD', 'rpk', 'cluster', 'info']
       interval: 10s
       timeout: 5s
       retries: 10
@@ -275,7 +283,7 @@ services:
     image: hardcoreeng/hulykvs:${HULY_VERSION}
     depends_on:
       cockroach:
-        condition: service_started
+        condition: service_healthy
     expose:
       - "8094"
     environment:

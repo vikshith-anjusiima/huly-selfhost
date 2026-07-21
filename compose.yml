@@ -220,6 +220,7 @@ services:
       - DESKTOP_UPDATES_CHANNEL=${DESKTOP_CHANNEL}
       - DISABLED_FEATURES=auto-translate,mailboxes
       - DISABLE_SIGNUP=${DISABLE_SIGNUP}
+      - PRESENCE_URL=wss://${HOST_ADDRESS}/_pulse
     restart: unless-stopped
     networks:
       - huly_net
